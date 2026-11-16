@@ -1,5 +1,5 @@
 // Bo Earrings Service Worker
-const CACHE = 'bo-earrings-v1.0.2';
+const CACHE = 'bo-earrings-v1.1.0';
 
 const PRECACHE = [
   './index.html',
