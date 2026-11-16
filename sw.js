@@ -1,5 +1,5 @@
 // Bo Earrings Service Worker
-const CACHE = 'bo-earrings-v1.1.0';
+const CACHE = 'bo-earrings-v1.2.0';
 
 const PRECACHE = [
   './index.html',
@@ -55,7 +55,7 @@ self.addEventListener('fetch', e => {
   }
 
   // earring photos — cache-first (they never change once cropped)
-  if (url.pathname.includes('/img/')) {
+  if (url.pathname.includes('/img/') || url.pathname.includes('/cut/')) {
     e.respondWith(caches.match(e.request).then(cached => cached || fetch(e.request).then(res => {
       if (res.ok) { const clone = res.clone(); caches.open(CACHE).then(c => c.put(e.request, clone)); }
       return res;
