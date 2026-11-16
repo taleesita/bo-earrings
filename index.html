@@ -27,7 +27,7 @@
         .maroon { background: #9d1752; }
         .card { background: #fff; border-radius: 18px; box-shadow: 0 1px 2px rgba(80,30,40,.06), 0 4px 14px rgba(80,30,40,.06); }
         .stamp { display: inline-block; border: 1.5px solid currentColor; border-radius: 7px; padding: 1px 6px; font-size: 10px; font-weight: 600; letter-spacing: .07em; text-transform: uppercase; background: rgba(255,255,255,.92); line-height: 1.5; white-space: nowrap; max-width: 92%; overflow: hidden; text-overflow: ellipsis; }
-        .stamp-lg { border-width: 2px; border-style: dashed; border-radius: 10px; padding: 4px 11px; font-size: 13px; background: transparent; }
+        .stamp-lg { border-width: 2px; border-style: dashed; border-radius: 10px; padding: 4px 11px; font-size: 13px; background: transparent; max-width: none; white-space: normal; }
         .hang { transform-origin: 50% 0; }
         @keyframes swing { 0% { transform: rotate(0); } 25% { transform: rotate(2.6deg); } 55% { transform: rotate(-1.8deg); } 80% { transform: rotate(.8deg); } 100% { transform: rotate(0); } }
         .group:hover .hang, .group:active .hang, .group:focus-visible .hang, .swinging .hang { animation: swing 1.4s ease-in-out; }
@@ -70,7 +70,7 @@
         const { useState, useEffect, useRef, useMemo } = React;
 
         // ============ CONFIG ============
-        const APP_VERSION = 'v1.2.1-nov15';
+        const APP_VERSION = 'v1.2.3-nov15';
         // Dedicated Firebase project for Bo Earrings (auth gate + Realtime Database storage).
         // Paste the web-app config from Firebase console → Project settings → Your apps.
         // While apiKey is still "PASTE_ME", the app runs in LOCAL MODE (no sign-in, edits saved in this browser only).
@@ -329,8 +329,9 @@
                 <div className="fixed inset-0 z-40 bg-black/40 flex items-end sm:items-center justify-center" onClick={onClose}>
                     <div className="sheet bg-[#fffaf4] w-full sm:max-w-3xl sm:rounded-3xl rounded-t-3xl overflow-y-auto fadeIn" onClick={e => e.stopPropagation()}>
                         <div className="sm:flex">
-                            <div className="sm:w-1/2 card-img relative cursor-zoom-in" onClick={() => setZoom(true)}>
-                                {src && <img src={src} className="w-full h-full max-h-[55vh] sm:max-h-none object-contain sm:object-cover" />}
+                            <div className="sm:w-1/2 velvet relative cursor-zoom-in flex items-center justify-center p-4 sm:p-6 h-[46vh] sm:h-auto sm:min-h-[460px] sm:max-h-[86vh]" onClick={() => setZoom(true)}>
+                                {src && <img src={src} className="max-w-full max-h-full sm:max-h-[78vh] object-contain rounded-xl shadow-md" />}
+                                <span className="absolute bottom-3 right-3 text-[11px] text-stone-500 bg-white/80 rounded-full px-2 py-0.5">tap to zoom</span>
                                 <button onClick={e => { e.stopPropagation(); onClose(); }} className="absolute top-3 left-3 w-9 h-9 rounded-full bg-white/90 shadow text-lg sm:hidden">×</button>
                             </div>
                             <div className="sm:w-1/2 p-5 sm:p-6">
@@ -339,7 +340,7 @@
                                     <button onClick={onFav} className={`text-2xl ${fav ? 'text-rose-600' : 'text-stone-300'}`} title="Favorite">♥</button>
                                     <button onClick={onClose} className="hidden sm:block text-2xl text-stone-400">×</button>
                                 </div>
-                                <button onClick={() => onSearch(item.place)} className="mt-3 block text-left"><span className="stamp stamp-lg" style={{ color: inkFor(item.region || item.place), transform: 'rotate(-2deg)' }}>{item.place}</span></button>
+                                <button onClick={() => onSearch(item.place)} className="mt-3 block text-left max-w-full"><span className="stamp stamp-lg inline-block" style={{ color: inkFor(item.region || item.place), transform: 'rotate(-2deg)' }}>{item.place}</span></button>
                                 <div className="text-sm text-stone-500 mt-1">{fmtDate(item.date)}{item.region && item.region !== item.place ? ` · ${item.region}` : ''}{item.gift ? ' · 🎁 gift' : ''}</div>
                                 {item.trip && <button onClick={() => onSearch(item.trip)} className="text-xs text-stone-400 mt-1 hover:underline text-left">From photo “{item.trip}”{item.sourcePage ? ` (page ${item.sourcePage})` : ''}</button>}
                                 <div className="mt-4 flex flex-wrap gap-1.5">
